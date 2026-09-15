@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { leadFormSchema } from '@/utils/validation';
+import { sendLeadConfirmationEmail, sendLeadNotificationToAdmin } from '@/lib/email';
 
 interface Lead {
   id: string;
@@ -57,10 +58,42 @@ export async function POST(request: NextRequest) {
 
     console.log('📍 New lead received:', newLead);
 
+    // Send confirmation email to lead
+    try {
+      await sendLeadConfirmationEmail({
+        name: validatedData.name,
+        email: validatedData.email,
+        businessName: validatedData.businessName,
+        businessType: validatedData.businessType,
+      });
+      console.log('✉️  Confirmation email sent to lead');
+    } catch (emailError: any) {
+      console.error('Error sending confirmation email:', emailError);
+      // Don't fail the request if email fails
+    }
+
+    // Send notification email to admin
+    try {
+      await sendLeadNotificationToAdmin({
+        name: validatedData.name,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        businessName: validatedData.businessName,
+        businessType: validatedData.businessType,
+        currentChallenges: validatedData.currentChallenges,
+        budget: validatedData.budget,
+        message: validatedData.message,
+      });
+      console.log('✉️  Notification email sent to admin');
+    } catch (emailError: any) {
+      console.error('Error sending admin notification:', emailError);
+      // Don't fail the request if email fails
+    }
+
     return NextResponse.json(
       {
         success: true,
-        message: 'Formulário recebido com sucesso!',
+        message: 'Formulário recebido com sucesso! Em breve entraremos em contacto.',
         leadId: newLead.id,
       },
       { status: 201 }
