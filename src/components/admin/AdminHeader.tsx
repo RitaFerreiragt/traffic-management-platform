@@ -1,9 +1,31 @@
 'use client';
 
 import Link from 'next/link';
-import { BarChart3, LogOut, Settings, HelpCircle } from 'lucide-react';
+import { BarChart3, LogOut, Settings, HelpCircle, Loader } from 'lucide-react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function AdminHeader() {
+  const router = useRouter();
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        console.log('✅ Logout bem-sucedido');
+        router.push('/admin/login');
+      }
+    } catch (err) {
+      console.error('Logout error:', err);
+      setLoggingOut(false);
+    }
+  };
+
   return (
     <header className="bg-gradient-to-r from-[#1A1A1A] to-[#B8A89F] text-white sticky top-0 z-40 shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -19,7 +41,7 @@ export default function AdminHeader() {
             href="/admin/leads"
             className="flex items-center gap-2 hover:text-[#FFF8E7] transition-colors"
           >
-            Leads
+            🎯 Leads
           </Link>
           <Link
             href="/admin/settings"
@@ -37,10 +59,23 @@ export default function AdminHeader() {
           </Link>
         </nav>
 
-        {/* Actions */}
-        <button className="flex items-center gap-2 px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors rounded-lg">
-          <LogOut className="w-4 h-4" />
-          <span className="hidden md:inline">Sair</span>
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          disabled={loggingOut}
+          className="flex items-center gap-2 px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors rounded-lg disabled:opacity-50 font-semibold"
+        >
+          {loggingOut ? (
+            <>
+              <Loader className="w-4 h-4 animate-spin" />
+              <span className="hidden md:inline">Saindo...</span>
+            </>
+          ) : (
+            <>
+              <LogOut className="w-4 h-4" />
+              <span className="hidden md:inline">Sair</span>
+            </>
+          )}
         </button>
       </div>
     </header>
