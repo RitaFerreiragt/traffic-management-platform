@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root Variables */
+:root {
+  --color-warm-white: #FAFAF8;
+  --color-ivory: #F5F3F0;
+  --color-charcoal: #1A1A1A;
+  --color-beige: #D4C5B9;
+  --color-taupe: #B8A89F;
+  --color-gold: #D4AF37;
+  --color-gold-subtle: #E8D4B8;
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Base Typography */
+body {
+  @apply bg-warm-white text-charcoal font-sans;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-serif font-bold;
+}
+
+/* Headings */
+h1 {
+  @apply text-5xl md:text-6xl leading-tight;
+}
+
+h2 {
+  @apply text-4xl md:text-5xl leading-tight;
+}
+
+h3 {
+  @apply text-2xl md:text-3xl leading-snug;
+}
+
+/* Links */
+a {
+  @apply transition-colors duration-300 ease;
+  color: inherit;
+}
+
+a:hover {
+  @apply text-gold;
+}
+
+/* Buttons Base */
+.btn {
+  @apply inline-block px-6 py-3 font-medium transition-all duration-300 ease;
+}
+
+.btn-primary {
+  @apply bg-charcoal text-warm-white hover:bg-taupe;
+}
+
+.btn-secondary {
+  @apply border-2 border-charcoal text-charcoal hover:bg-charcoal hover:text-warm-white;
+}
+
+.btn-ghost {
+  @apply text-charcoal hover:text-gold underline;
+}
+
+/* Container */
+.container {
+  @apply mx-auto px-4 md:px-8 lg:px-12 max-w-7xl;
+}
+
+/* Section Spacing */
+.section {
+  @apply py-16 md:py-24 lg:py-32;
+}
+
+.section-sm {
+  @apply py-8 md:py-12 lg:py-16;
+}
+
+/* Grid */
+.grid-cols-auto {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+}
+
+/* Focus Styles */
+*:focus-visible {
+  @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-warm-white;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection */
+::selection {
+  @apply bg-gold-subtle text-charcoal;
+}
