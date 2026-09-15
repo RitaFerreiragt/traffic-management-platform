@@ -4,6 +4,7 @@ import Differentiation from '@/components/sections/Differentiation';
 import ForWho from '@/components/sections/ForWho';
 import Services from '@/components/sections/Services';
 import FreeDiagnostic from '@/components/sections/FreeDiagnostic';
+import LeadFormSection from '@/components/sections/LeadFormSection';
 import Footer from '@/components/layout/Footer';
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <ForWho />
       <Services />
       <FreeDiagnostic />
+      <LeadFormSection />
       <Footer />
     </>
   );
